@@ -1,0 +1,37 @@
+.outer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-div{
+    background-color: rgba(0, 162, 255, 0.699);
+    width: 80%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.box{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.box2{
+    height: 100px;
+}
+
+span{
+    margin-right: 10px;
+}
+
+.button-div{
+    display: flex;
+    justify-content: space-evenly;
+    width: 200px;
+}
