@@ -1,42 +1,146 @@
 import React, { useEffect, useState } from 'react'
-import '../css/login.css'
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
 
 function Login() {
 
-  const [isLogin, setIsLogin] = useState(false)
+  const [usernameCheck, setUsernameCheck] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState(false);
 
-  useEffect(() => {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
 
-    return () => {
-      
+  const handleUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+
+    if(username === ''){
+      setUsernameCheck(true)
+    }else{
+      setUsernameCheck(false)
     }
-  }, [])
-  
+  }
+
+  const handlePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+
+    if(password === ''){
+      setPasswordCheck(true)
+    }else{
+      setPasswordCheck(false)
+    }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+
+    if(username === ''){
+      setUsernameCheck(true)
+      return;
+    }else{
+      setUsernameCheck(false)
+    }
+
+    if(password === ''){
+      setPasswordCheck(true)
+      return;
+    }else{
+      setPasswordCheck(false)
+    }
+
+    console.log({
+      username: username,
+      password: password,
+    });
+  };
 
   return (
-    <div className='outer'>
-      <div className='login-div'>
-        <div className='username-div'>
-          <span>USERNAME</span>
-          <input type='text' />
-        </div>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            로그인
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              error={usernameCheck}
+              onChange={handleUsername}
+              helperText={username === '' ? 'username을 입력해주세요.' : ''}
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="username"
+              name="username"
+              autoComplete=""
+              autoFocus
+            />
+            <TextField
+              error={passwordCheck}
+              onChange={handlePassword}
+              helperText={password === '' ? 'password을 입력해주세요.' : ''}
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
 
-        <div className='box'></div>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-around'
+              }}
+            >
+              <Button
+                type="submit"
+                
+                variant="contained"
+                sx={{ mt: 3, mb: 2, width: '40%' }}
+              >
+                로그인
+              </Button>
 
-        <div className='password-div'>
-          <span>PASSWORD</span>
-          <input type='password' />
-        </div>
-
-        <div className='box2'></div>
-
-        <div className='button-div'>
-          <button type='button'>로그인</button>
-          <button type='button'>회원가입</button>
-        </div>
-      </div>
-    </div>
-  )
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, width: '40%' }}
+              >
+                회원가입
+              </Button>
+            </Box>
+            
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
 }
 
 export default Login
