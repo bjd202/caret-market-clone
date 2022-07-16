@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Avatar, Box, Button, Container, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const theme = createTheme();
 
-function Login() {
+function Regist() {
 
   const navigate = useNavigate();
 
@@ -57,18 +49,17 @@ function Login() {
       password: password,
     });
 
-    axios.post('http://localhost:4000/auth/login', {username, password})
-    .then(res => {
-      console.log(res.data);
-      localStorage.setItem('token', res.data.access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
-      navigate('/list');
+    fetch('http://localhost:4000/user/create', data)
+    .then((res) => {
+      console.log(res.json());
     })
-    .catch(err => {console.log(err)})
+    .catch((err) => {
+      console.log(err);
+    })
   };
 
-  const goRegist = () => {
-    navigate('/regist');
+  const goLogin = () => {
+    navigate('/login');
   }
 
   return (
@@ -87,7 +78,7 @@ function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            로그인
+            회원가입
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -129,7 +120,7 @@ function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: '40%' }}
               >
-                로그인
+                회원가입
               </Button>
 
               <Button
@@ -137,9 +128,9 @@ function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: '40%' }}
-                onClick={goRegist}
+                onClick={goLogin}
               >
-                회원가입
+                취소
               </Button>
             </Box>
             
@@ -147,7 +138,7 @@ function Login() {
         </Box>
       </Container>
     </ThemeProvider>
-  );
+  )
 }
 
-export default Login
+export default Regist

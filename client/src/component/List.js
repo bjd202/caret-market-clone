@@ -1,8 +1,20 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
-function List() {
+function List(props) {
+
+  console.log(props);
+  const navigate = useNavigate();
+
+  const { isExpired } = props
+
+  if(isExpired){
+    navigate('/');
+  }
+  
+
   return (
-    <div>List</div>
+    <div>Listas</div>
   )
 }
 
