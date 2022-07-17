@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './component/Login';
 import Regist from './component/Regist';
 import jwt_decode from 'jwt-decode'
 import List from './component/List';
+import axios from 'axios';
+import Cookie from 'js-cookie'
 
 function App() {
+
+  axios.defaults.baseURL = 'http://localhost:4000';
+  axios.defaults.withCredentials = true;
+
+  const navigate = useNavigate();
 
   const [isExpired, setIsExpired] = useState(false)
 
   useEffect(() => {
-    
-    const token = localStorage.getItem('token');
-    console.log(token);
 
-    if(token === null){
-      setIsExpired(true);
-      return;
-    }
-
-    const decode = jwt_decode(token);
-    console.log(decode);
-    const now = new Date();
-    console.log(now.getTime())
-
-    if(decode.exp * 1000 < now.getTime()){
-      setIsExpired(true);
-      return;
-    }
+    axios.post('/auth/refresh')
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err);
+      navigate('/');
+    })
   
     return () => {
       
@@ -41,7 +39,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/regist" element={<Regist />} />
 
-      <Route path="/list" element={<List isExpired={isExpired} />} />
+      <Route path="/list" element={<List />} />
     </Routes>
   )
 }

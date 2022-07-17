@@ -9,6 +9,7 @@ function List(props) {
   const { isExpired } = props
 
   if(isExpired){
+    alert('refresh token 만료');
     navigate('/');
   }
   

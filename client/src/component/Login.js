@@ -60,8 +60,9 @@ function Login() {
     axios.post('http://localhost:4000/auth/login', {username, password})
     .then(res => {
       console.log(res.data);
-      localStorage.setItem('token', res.data.access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
+      // console.log(res);
+      // localStorage.setItem('token', res.data.currentHashedRefreshToken);
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
       navigate('/list');
     })
     .catch(err => {console.log(err)})
