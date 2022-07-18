@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtRefreshGuard } from './jwt-refresh.guard';
 import { LocalAuthGuard } from './local-auth.guard';
+import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
 
 @Controller('auth')
@@ -46,16 +47,9 @@ export class AuthController {
       return user;
     }
 
-    @Post('/p')
-    @UseGuards(JwtAuthGuard)
-    getProfile(@Request() req) {
-      return req.user;
-    }
-
-    @Post('/k')
-    @UseGuards(JwtAuthGuard)
-    g(@Request() req) {
-      console.log(req);
-      return req.body;
+    @Post('/create')
+    create(@Body() createUserDto: CreateUserDto){
+      console.log(createUserDto);
+      return this.authService.create(createUserDto);
     }
 }

@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Container, createTheme, CssBaseline, TextField, Th
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import axios from 'axios';
 
 const theme = createTheme();
 
@@ -49,12 +50,15 @@ function Regist() {
       password: password,
     });
 
-    fetch('http://localhost:4000/user/create', data)
-    .then((res) => {
-      console.log(res.json());
+    axios.post('http://localhost:4000/auth/create', {username, password})
+    .then(res => {
+      console.log(res);
+      alert('회원가입에 성공했습니다.');
+      navigate('/');
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(err => {
+      console.log(err)
+      alert(err.response.data.message);
     })
   };
 

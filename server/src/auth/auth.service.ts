@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcryptjs';
 import { jwtConstants } from './jwt.constants';
+import { CreateUserDto } from './user.dto';
 
 @Injectable()
 export class AuthService {
@@ -94,7 +95,22 @@ export class AuthService {
       }
     }
 
-    create(user: User): void{
-        this.userRepository.save(user);
+    async create(createUserDto: CreateUserDto): Promise<void> {
+        const {username, password} = createUserDto;
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+        
+        createUserDto.password = hashedPassword;
+
+        const user = this.userRepository.create({username, password});
+
+        try {
+            await this.userRepository.save(user);
+        } catch (error) {
+            console.log(error);
+            if(error.code === 'ER_DUP_ENTRY'){
+                throw new BadRequestException('중복된 username');
+            }
+        }
     }
 }

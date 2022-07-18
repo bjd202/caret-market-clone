@@ -3,7 +3,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './component/Login';
 import Regist from './component/Regist';
 import jwt_decode from 'jwt-decode'
-import List from './component/List';
+import MainList from './component/MainList';
 import axios from 'axios';
 import Cookie from 'js-cookie'
 
@@ -39,7 +39,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/regist" element={<Regist />} />
 
-      <Route path="/list" element={<List />} />
+      <Route path="/list" element={<MainList isExpired={isExpired} />} />
     </Routes>
   )
 }
