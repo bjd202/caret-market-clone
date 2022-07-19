@@ -1,10 +1,15 @@
-import { Avatar, List, BottomNavigation, BottomNavigationAction, Box, CssBaseline, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
+import { Avatar, List, BottomNavigation, BottomNavigationAction, Box, CssBaseline, ListItem, ListItemAvatar, ListItemText, Paper, AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import SearchIcon from '@mui/icons-material/Search';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import DrawList from './DrawList';
+import MyCaret from './MyCaret';
 
 
 function refreshMessages() {
@@ -37,13 +42,31 @@ function MainList(props) {
     setMessages(refreshMessages());
   }, [value, setMessages]);
 
-
+  const content = () => {
+    if(value === 0){
+      return <DrawList></DrawList>
+    }else if(value === 1){
+      return <MyCaret></MyCaret>
+    }
+  }
   
   return (
     <Box sx={{ pb: 7 }}>
       <CssBaseline />
 
-      
+      {/* <Paper sx={{ position: 'fixed', top: 0, left: 0, right: 0 }} elevation={3}>
+        <AppBar position="fixed">
+          <Toolbar sx={{display: 'flex', justifyContent: 'flex-end'}}>
+            <IconButton
+              color="inherit"
+            >
+              <SearchIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </Paper> */}
+
+      {content()}
 
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation
@@ -53,9 +76,9 @@ function MainList(props) {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
+          <BottomNavigationAction label="홈" icon={<HomeIcon />} />
+          <BottomNavigationAction label="나의 당근" icon={<PersonIcon />} />
+          {/* <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} /> */}
         </BottomNavigation>
       </Paper>
   </Box>
