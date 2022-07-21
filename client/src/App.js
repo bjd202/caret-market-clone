@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode'
 import MainList from './component/MainList';
 import axios from 'axios';
 import Cookie from 'js-cookie'
+import CreatePost from './component/CreatePost';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
       <Route path="/regist" element={<Regist />} />
 
       <Route path="/list" element={<MainList isExpired={isExpired} />} />
+      <Route path="/create" element={<CreatePost isExpired={isExpired} />} />
     </Routes>
   )
 }

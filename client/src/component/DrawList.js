@@ -10,6 +10,8 @@ import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 function DrawList() {
   return (
@@ -68,11 +70,18 @@ function DrawList() {
 }
 
 function ControlledOpenSpeedDial() {
+
+  const navigate = useNavigate();
+
+  const handleDial = () => {
+    navigate('/create');
+  }
+
   const actions = [
-    { icon: <FileCopyIcon />, name: 'Copy' },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
+    { icon: <AddIcon onClick={handleDial} color='primary' />, name: '내 물건 팔기', action: handleDial},
+    // { icon: <SaveIcon />, name: 'Save' },
+    // { icon: <PrintIcon />, name: 'Print' },
+    // { icon: <ShareIcon />, name: 'Share' },
   ];
 
   const [open, setOpen] = React.useState(false);
@@ -84,6 +93,8 @@ function ControlledOpenSpeedDial() {
     }
   };
   const handleClose = () => setOpen(false);
+
+  
 
   return (
     // <Box sx={{ height: 600, transform: 'translateZ(0px)', flexGrow: 1 }}>
@@ -101,6 +112,7 @@ function ControlledOpenSpeedDial() {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
+            onClick={action.action}
           />
         ))}
       </SpeedDial>
