@@ -22,6 +22,7 @@ function CreatePost(props) {
   const [subject, setSubject] = useState('');
   const [category, setCategory] = useState('');
   const [number, setNumber] = useState(0);
+  const [description, setDescription] = useState('');
 
   const goList = () => {
     navigate('/list');
@@ -41,6 +42,11 @@ function CreatePost(props) {
   const handleNumber = (e) => {
     const {id, value} = e.target
     setNumber(value);
+  }
+
+  const handleDescription = (e) => {
+    const {id, value} = e.target
+    setDescription(value);
   }
 
   const handleImage = (e) => {
@@ -84,14 +90,30 @@ function CreatePost(props) {
     const data = {
       subject,
       category,
-      number
+      number,
+      description
     }
 
     console.log(data);
 
-    axios.post('http://localhost/usedTrade/create', data)
-    .then(res => {
+    if(data.subject === ''){
+      alert('제목을 입력해주세요.');
+      return;
+    }
 
+    if(data.category === ''){
+      alert('카테고리를 선택해주세요.');
+      return;
+    }
+
+    if(data.description === ''){
+      alert('게시글 내용을 입력해주세요.');
+      return;
+    }
+
+    axios.post('http://localhost:4000/post/create', data)
+    .then(res => {
+      console.log(res.data);
     })
     .catch(err => {
       console.log(err);
@@ -189,6 +211,18 @@ function CreatePost(props) {
             label="$ 가격 (선택사항)" 
             variant="outlined" 
             onChange={handleNumber}
+            fullWidth />
+        </Box>
+
+        <Box>
+        <TextField 
+            id="description" 
+            label="" 
+            variant="outlined" 
+            onChange={handleDescription}
+            multiline
+            placeholder='게시글 내용을 작성해주세요.'
+            rows={10}
             fullWidth />
         </Box>
       </Box>

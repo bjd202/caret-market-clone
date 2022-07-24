@@ -5,6 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
+import { PostController } from './post/post.controller';
+import { PostModule } from './post/post.module';
+import { PostService } from './post/post.service';
 
 @Module({
   imports: [
@@ -19,9 +22,10 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
       autoLoadEntities: true
     }),
-    AuthModule
+    AuthModule,
+    PostModule
   ],
-  controllers: [AppController, AuthController],
+  controllers: [AppController, AuthController, PostController],
   providers: [AppService],
 })
 export class AppModule {

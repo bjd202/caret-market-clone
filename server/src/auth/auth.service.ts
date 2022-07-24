@@ -82,7 +82,10 @@ export class AuthService {
     }
 
     async getUserIfRefreshTokenMatches(refreshToken: string, username: string) {
-      const paramUser: User = {username: username, password: '', id: 0};
+      const paramUser: User = {
+          username: username, password: '', id: 0,
+          post: []
+      };
       const user = await this.findOne(paramUser);
   
       const isRefreshTokenMatching = await bcrypt.compare(

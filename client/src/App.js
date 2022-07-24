@@ -12,26 +12,43 @@ function App() {
 
   axios.defaults.baseURL = 'http://localhost:4000';
   axios.defaults.withCredentials = true;
+  axios.interceptors.request.use((config) => {
+    console.log(config);
+    return config;
+  }, (err) => {
+    console.log(err);
+    return Promise.reject(err);
+  })
+
+  axios.interceptors.response.use(function (res){
+    console.log(res);
+    return res;
+  }, function (err){
+    console.log(err);
+    return Promise.reject(err);
+  });
 
   const navigate = useNavigate();
 
   const [isExpired, setIsExpired] = useState(false)
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    axios.post('/auth/refresh')
-    .then(res => {
-      console.log(res)
-    })
-    .catch(err => {
-      console.log(err);
-      navigate('/');
-    })
+  //   console.log('refresh token');
+
+  //   axios.post('/auth/refresh')
+  //   .then(res => {
+  //     console.log(res)
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     navigate('/');
+  //   })
   
-    return () => {
+  //   return () => {
       
-    }
-  }, [])
+  //   }
+  // }, [isExpired])
   
 
   return (

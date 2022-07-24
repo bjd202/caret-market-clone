@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Post } from "src/post/post.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
 @Unique(['username'])
@@ -14,4 +15,7 @@ export class User{
 
     @Column({nullable: true})
     currentHashedRefreshToken?: string;
+
+    @OneToMany(() => Post, (post) => post.user, {eager: false})
+    post: Post[]
 }
