@@ -10,46 +10,50 @@ import CreatePost from './component/CreatePost';
 
 function App() {
 
-  axios.defaults.baseURL = 'http://localhost:4000';
-  axios.defaults.withCredentials = true;
-  axios.interceptors.request.use((config) => {
-    console.log(config);
-    return config;
-  }, (err) => {
-    console.log(err);
-    return Promise.reject(err);
-  })
-
-  axios.interceptors.response.use(function (res){
-    console.log(res);
-    return res;
-  }, function (err){
-    console.log(err);
-    return Promise.reject(err);
-  });
-
   const navigate = useNavigate();
 
-  const [isExpired, setIsExpired] = useState(false)
+  axios.defaults.baseURL = 'http://localhost:4000';
+  axios.defaults.withCredentials = true;
 
-  // useEffect(() => {
+  // axios.interceptors.request.use((config) => {
+  //   console.log(config);
+  //   return config;
+  // }, (err) => {
+  //   console.log(err);
+  //   return Promise.reject(err);
+  // })
 
-  //   console.log('refresh token');
+  axios.interceptors.response.use( (res) => {
+    console.log(res);
+    return res;
+  }, (err) => {
+    console.log(err);
 
-  //   axios.post('/auth/refresh')
-  //   .then(res => {
-  //     console.log(res)
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     navigate('/');
-  //   })
-  
-  //   return () => {
+    const {config} = err;
+    const originalConfig = err.config;
+
+    if(err.response.status === 401 && !originalConfig._retry){
+      // const originalRequest = config;
+      originalConfig._retry = true;
+      console.log(111);
+      console.log(originalConfig);
+
+      axios.post('/auth/refresh')
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+        navigate('/');
+      })
       
-  //   }
-  // }, [isExpired])
-  
+      return axios(originalConfig);
+    }else{
+      return Promise.reject(err.response.data);
+    }
+
+    return Promise.reject(err);
+  });
 
   return (
     <Routes>
@@ -57,8 +61,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/regist" element={<Regist />} />
 
-      <Route path="/list" element={<MainList isExpired={isExpired} />} />
-      <Route path="/create" element={<CreatePost isExpired={isExpired} />} />
+      <Route path="/list" element={<MainList />} />
+      <Route path="/create" element={<CreatePost />} />
     </Routes>
   )
 }

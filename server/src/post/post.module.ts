@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
+import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { PostController } from './post.controller';
@@ -10,6 +11,9 @@ import { PostService } from './post.service';
     imports: [
         TypeOrmModule.forFeature([Post]),
         AuthModule,
+        MulterModule.register({
+            dest: './upload'
+        })
     ],
     providers: [PostService],
     controllers: [PostController],

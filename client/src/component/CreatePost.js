@@ -7,18 +7,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from '@mui/icons-material/Image';
 import axios from 'axios';
 
-function CreatePost(props) {
-  console.log(props);
+function CreatePost() {
+
   const navigate = useNavigate();
 
-  const { isExpired } = props
-
-  if(isExpired){
-    alert('refresh token 만료');
-    navigate('/');
-  }
-
   const [images, setImages] = useState([])
+  const [uploadImages, setUploadImages] = useState([])
   const [subject, setSubject] = useState('');
   const [category, setCategory] = useState('');
   const [number, setNumber] = useState(0);
@@ -68,20 +62,26 @@ function CreatePost(props) {
       }
     }
 
+    setUploadImages([...e.target.files]);
     console.log(images);
   }
 
   const removeImage = (e) => {
     const i = Number(e.target.getAttribute('data-key'));
-    console.log(i);
 
     const tmpArr = images.filter((value, index) => {
       console.log(index);
       return i !== index;
     })
-    console.log(tmpArr);
 
     setImages(tmpArr);
+
+    const tmpArr2 = uploadImages.filter((value, index) => {
+      console.log(index);
+      return i !== index;
+    })
+
+    setUploadImages(tmpArr2);
 
     // console.log(images);
   }
@@ -111,9 +111,34 @@ function CreatePost(props) {
       return;
     }
 
-    axios.post('http://localhost:4000/post/create', data)
+    // const formData = new FormData();
+    // formData.append('subject', subject);
+    // formData.append('category', category);
+    // formData.append('number', number);
+    // formData.append('description', description);
+
+    axios.post('http://localhost:4000/post/create', data, {
+      // headers: {"Content-Type": "multipart/form-data"}
+    })
     .then(res => {
       console.log(res.data);
+      // navigate('/list');
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+    const formData2 = new FormData();
+    uploadImages.forEach((file, index) => {
+      formData2.append(`files`, file);
+    })
+    console.log(uploadImages);
+
+    axios.post('http://localhost:4000/file/upload', formData2, {
+      headers: {"Content-Type": "multipart/form-data"}
+    })
+    .then(res => {
+      console.log(res);
     })
     .catch(err => {
       console.log(err);

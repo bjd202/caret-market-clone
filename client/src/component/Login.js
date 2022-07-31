@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const theme = createTheme();
 
@@ -60,6 +61,7 @@ function Login() {
     axios.post('http://localhost:4000/auth/login', {username, password})
     .then(res => {
       console.log(res.data);
+
       // console.log(res);
       // localStorage.setItem('token', res.data.currentHashedRefreshToken);
       // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;

@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { PostController } from './post/post.controller';
 import { PostModule } from './post/post.module';
 import { PostService } from './post/post.service';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { PostService } from './post/post.service';
       autoLoadEntities: true
     }),
     AuthModule,
-    PostModule
+    PostModule,
+    FileModule
   ],
   controllers: [AppController, AuthController, PostController],
   providers: [AppService],

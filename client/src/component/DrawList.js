@@ -1,5 +1,5 @@
 import { AppBar, Avatar, Backdrop, Box, Card, CardContent, CardMedia, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, SpeedDial, SpeedDialAction, SpeedDialIcon, Toolbar, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import ImageIcon from '@mui/icons-material/Image';
 import WorkIcon from '@mui/icons-material/Work';
@@ -12,8 +12,30 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import * as moment from 'moment'
+import 'moment/locale/ko';
 
 function DrawList() {
+
+  const [post, setPost] = useState([]);
+
+  useEffect(() => {
+    axios.get('/post/list')
+    .then(res => {
+      console.log(res.data);
+
+      setPost(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  
+    return () => {
+      
+    }
+  }, [])
+
   return (
     <Box 
       sx={{
@@ -31,7 +53,7 @@ function DrawList() {
       </AppBar> 
       
       <Box sx={{paddingTop: '56px'}}>
-        <Card sx={{display: 'flex', padding: 2}}>
+        {/* <Card sx={{display: 'flex', padding: 2}}>
           <CardMedia
             component="img"
             sx={{width: 150}}
@@ -59,8 +81,41 @@ function DrawList() {
               </Box>
             </CardContent>
           </Box>
-        </Card>
-        
+        </Card> */}
+
+        {post.map((data, index) => {
+          return(
+            <Card key={index} sx={{display: 'flex', padding: 2}}>
+              <CardMedia
+                component="img"
+                sx={{width: 150}}
+                image=""
+              >
+
+              </CardMedia>
+              
+              <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+                <CardContent>
+                  <Typography component="div" variant='subtitle1'>
+                    {data.subject}
+                  </Typography>
+                  <Typography component="div" variant='subtitle1' color="text.secondary">
+                    {moment(data.updated_at).fromNow()}
+                  </Typography>
+                  <Typography component="div" variant='subtitle2' sx={{fontWeight: 'bold'}}>
+                    {data.number}
+                  </Typography>
+                  <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <ChatBubbleOutlineIcon color='primary' />
+                    <Typography>1</Typography>
+                    <FavoriteBorderIcon color='error' />
+                    <Typography>2</Typography>
+                  </Box>
+                </CardContent>
+              </Box>
+            </Card>
+          )
+        })}
       </Box>
       
 

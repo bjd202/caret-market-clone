@@ -21,17 +21,7 @@ function refreshMessages() {
 }
 
 
-function MainList(props) {
-
-  console.log(props);
-  const navigate = useNavigate();
-
-  const { isExpired } = props
-
-  if(isExpired){
-    alert('refresh token 만료');
-    navigate('/');
-  }
+function MainList() {
 
   const [value, setValue] = React.useState(0);
   const ref = React.useRef(null);

@@ -31,4 +31,12 @@ export class PostService {
             console.log(error);
         }
     }
+
+    async list(): Promise<Post[]>{
+       return await this.postRepository.find({
+            order: {
+                updated_at: 'DESC'
+            }
+        });
+    }
 }
