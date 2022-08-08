@@ -12,7 +12,7 @@ export class PostService {
         private postRepository: Repository<Post>
     ){}
 
-    async create(createPostDto: CreatePostDto, user: User): Promise<void> {
+    async create(createPostDto: CreatePostDto, user: User): Promise<Post> {
         const {category,description,number,subject} = createPostDto;
         
         const post = this.postRepository.create({
@@ -26,7 +26,7 @@ export class PostService {
         });
 
         try {
-            await this.postRepository.save(post);
+            return await this.postRepository.save(post);
         } catch (error) {
             console.log(error);
         }

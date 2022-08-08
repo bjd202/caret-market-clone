@@ -21,11 +21,12 @@ import { FileModule } from './file/file.module';
       database: 'caret-market-clone',
       // entities: [],
       synchronize: true,
-      autoLoadEntities: true
+      autoLoadEntities: true,
+      logging: true
     }),
     AuthModule,
     PostModule,
-    FileModule
+    FileModule,
   ],
   controllers: [AppController, AuthController, PostController],
   providers: [AppService],

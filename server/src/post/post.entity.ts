@@ -1,5 +1,6 @@
 import { User } from "src/auth/user.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { File } from "src/file/file.entity";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Post {
@@ -27,4 +28,7 @@ export class Post {
 
     @ManyToOne(() => User, (user) => user.post, {eager: false})
     user: User
+
+    @OneToMany(() => File, (file) => file.post)
+    files: File[]
 }

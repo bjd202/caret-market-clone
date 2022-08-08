@@ -117,37 +117,60 @@ function CreatePost() {
     // formData.append('number', number);
     // formData.append('description', description);
 
-    axios.post('http://localhost:4000/post/create', data, {
-      // headers: {"Content-Type": "multipart/form-data"}
-    })
-    .then(res => {
-      console.log(res.data);
-      // navigate('/list');
-    })
-    .catch(err => {
-      console.log(err);
-    })
+    const apiCall = async() => {
+      try {
+        const res = await axios.post('http://localhost:4000/post/create', data)
+        const postId = res.data.id;
+        console.log(postId);
 
-    const formData2 = new FormData();
-    uploadImages.forEach((file, index) => {
-      formData2.append(`files`, file);
-    })
-    console.log(uploadImages);
+        const formData2 = new FormData();
+        formData2.append('id', postId);
+        uploadImages.forEach((file, index) => {
+          formData2.append(`files`, file);
+        })
 
-    axios.post('http://localhost:4000/file/upload', formData2, {
-      headers: {"Content-Type": "multipart/form-data"}
-    })
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+        const res2 = axios.post('http://localhost:4000/file/upload', formData2, {
+          headers: {"Content-Type": "multipart/form-data"}
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    apiCall();
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+    // axios.post('http://localhost:4000/post/create', data, {
+    //   // headers: {"Content-Type": "multipart/form-data"}
+    // })
+    // .then(res => {
+    //   console.log(res.data);
+    //   postId = res.data.id;
+    //   // navigate('/list');
+    // })
+    // .catch(err => {
+    //   console.log(err);
+    // })
+
+  //   const formData2 = new FormData();
+  //   uploadImages.forEach((file, index) => {
+  //     formData2.append(`files`, file);
+  //   })
+
+  //   axios.post('http://localhost:4000/file/upload', formData2, {
+  //     headers: {"Content-Type": "multipart/form-data"}
+  //   })
+  //   .then(res => {
+  //     console.log(res);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   })
+  // }
+
+  function handleSubmit(e) {
+      e.preventDefault();
+  }
 
   return (
     <Box>
