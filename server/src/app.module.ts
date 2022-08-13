@@ -9,6 +9,7 @@ import { PostController } from './post/post.controller';
 import { PostModule } from './post/post.module';
 import { PostService } from './post/post.service';
 import { FileModule } from './file/file.module';
+import { FavoriteModule } from './favorite/favorite.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { FileModule } from './file/file.module';
     AuthModule,
     PostModule,
     FileModule,
+    FavoriteModule,
   ],
   controllers: [AppController, AuthController, PostController],
   providers: [AppService],

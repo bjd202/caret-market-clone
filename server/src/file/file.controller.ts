@@ -1,9 +1,11 @@
-import { Body, Controller, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { Post as PostEntity } from 'src/post/post.entity';
 import { FileService } from './file.service';
 
 @Controller('file')
+@UseGuards(AuthGuard('jwt'))
 export class FileController {
     constructor(private fileService: FileService){}
 

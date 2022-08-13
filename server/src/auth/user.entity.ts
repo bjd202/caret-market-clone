@@ -1,3 +1,4 @@
+import { Favorite } from "src/favorite/favorite.entity";
 import { Post } from "src/post/post.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
@@ -18,4 +19,7 @@ export class User{
 
     @OneToMany(() => Post, (post) => post.user, {eager: false})
     post: Post[]
+
+    @OneToMany(() => Favorite, (favorite) => favorite.user, {eager: false})
+    favorites: Favorite[];
 }

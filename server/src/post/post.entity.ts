@@ -1,4 +1,5 @@
 import { User } from "src/auth/user.entity";
+import { Favorite } from "src/favorite/favorite.entity";
 import { File } from "src/file/file.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -20,15 +21,21 @@ export class Post {
     @Column()
     description: string;
 
+    @Column()
+    views: number;
+
     @CreateDateColumn()
     created_at: Date;
 
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToOne(() => User, (user) => user.post, {eager: false})
+    @ManyToOne(() => User, (user) => user.post, {eager: true})
     user: User
 
-    @OneToMany(() => File, (file) => file.post)
+    @OneToMany(() => File, (file) => file.post, {eager: true})
     files: File[]
+
+    @OneToMany(() => Favorite, (favorite) => favorite.post, {eager: true})
+    favorites: Favorite[];
 }

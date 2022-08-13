@@ -15,14 +15,14 @@ export class AuthService {
         private jwtService: JwtService
     ){}
 
-    async findOne(user: User): Promise<User | null>{
+    async findOne(username: string): Promise<User | null>{
         return await this.userRepository.findOneBy({
-            username: user.username
+            username: username
         });
     }
 
     async validateUser(paramUser: User): Promise<any>{
-        const user = await this.findOne(paramUser);
+        const user = await this.findOne(paramUser.username);
         console.log(user);
         // const salt = await bcrypt.genSalt();
         // const hashedPassword = await bcrypt.hash(paramUser.password, salt);
@@ -82,11 +82,12 @@ export class AuthService {
     }
 
     async getUserIfRefreshTokenMatches(refreshToken: string, username: string) {
-      const paramUser: User = {
-          username: username, password: '', id: 0,
-          post: []
-      };
-      const user = await this.findOne(paramUser);
+    //   const paramUser: User = {
+    //       username: username, password: '', id: 0,
+    //       post: []
+    //   };
+      
+      const user = await this.findOne(username);
   
       const isRefreshTokenMatching = await bcrypt.compare(
         refreshToken,

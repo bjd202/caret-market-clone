@@ -7,6 +7,7 @@ import MainList from './component/MainList';
 import axios from 'axios';
 import Cookie from 'js-cookie'
 import CreatePost from './component/CreatePost';
+import DetailPost from './component/DetailPost';
 
 function App() {
 
@@ -45,11 +46,12 @@ function App() {
       .catch(err => {
         console.log(err);
         navigate('/');
+        return Promise.reject(err);
       })
       
       return axios(originalConfig);
     }else{
-      return Promise.reject(err.response.data);
+      return Promise.reject(err);
     }
 
     return Promise.reject(err);
@@ -63,6 +65,7 @@ function App() {
 
       <Route path="/list" element={<MainList />} />
       <Route path="/create" element={<CreatePost />} />
+      <Route path="/detail/:id" element={<DetailPost />} />
     </Routes>
   )
 }

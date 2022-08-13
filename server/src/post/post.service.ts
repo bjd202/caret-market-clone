@@ -39,4 +39,15 @@ export class PostService {
             }
         });
     }
+
+    async findOne(id: number): Promise<Post>{
+        this.updateViews(id);
+        return await this.postRepository.findOne({where: {id}})
+    }
+
+    async updateViews(id: number): Promise<void>{
+        await this.postRepository.update(id, {
+            views: () => 'views + 1'
+        });
+    }
 }

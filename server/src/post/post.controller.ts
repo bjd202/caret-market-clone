@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GetUser } from 'src/auth/get-user.decorator';
@@ -31,5 +31,10 @@ export class PostController {
     @Get('/list')
     list(): Promise<PostEntity[]>{
         return this.postService.list();
+    }
+
+    @Get('/:id')
+    findOne(@Param('id') id): Promise<PostEntity>{
+        return this.postService.findOne(id);
     }
 }

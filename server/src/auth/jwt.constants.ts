@@ -3,5 +3,5 @@ export const jwtConstants={
     expiresIn: 60,
 
     refreshSecret: 'refreshSecretKey',
-    refreshExpresIn: 60 * 2
+    refreshExpresIn: 3600
 }

@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Backdrop, Box, Card, CardContent, CardMedia, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, SpeedDial, SpeedDialAction, SpeedDialIcon, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Backdrop, Box, Card, CardContent, CardMedia, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, requirePropFactory, SpeedDial, SpeedDialAction, SpeedDialIcon, Toolbar, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import ImageIcon from '@mui/icons-material/Image';
@@ -18,6 +18,7 @@ import 'moment/locale/ko';
 
 function DrawList() {
 
+  const navigate = useNavigate();
   const [post, setPost] = useState([]);
 
   useEffect(() => {
@@ -35,6 +36,11 @@ function DrawList() {
       
     }
   }, [])
+
+  const handleClick = (id) => {
+    console.log(id);
+    navigate(`/detail/${id}`);
+  }
 
   return (
     <Box 
@@ -85,11 +91,12 @@ function DrawList() {
 
         {post.map((data, index) => {
           return(
-            <Card key={index} sx={{display: 'flex', padding: 2}}>
+            <Card onClick={() => handleClick(data.id)} key={index} sx={{display: 'flex', padding: 2, cursor: 'pointer'}}>
               <CardMedia
                 component="img"
-                sx={{width: 150}}
-                image=""
+                sx={{width: 150, height: 150}}
+                image={data.files.length === 0 ? '' : `http://localhost:4000/${data.files[0].filename}`}
+                // src={'localhost:4000/0eecea9cf91bcb5db87e10f056260af8.jpg'}
               >
 
               </CardMedia>
@@ -109,7 +116,7 @@ function DrawList() {
                     <ChatBubbleOutlineIcon color='primary' />
                     <Typography>1</Typography>
                     <FavoriteBorderIcon color='error' />
-                    <Typography>2</Typography>
+                    <Typography>{data.favorites.length}</Typography>
                   </Box>
                 </CardContent>
               </Box>
